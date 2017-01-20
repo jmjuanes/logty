@@ -36,8 +36,8 @@ var logty = function(level, file)
   //Get the stream object
   this._stream = (typeof file === 'string') ? fs.createWriteStream(file, { encoding: 'utf8', flags: 'a' }) : process.stdout;
 
-  //Add this file
-  logty_files[this._id] = this._stream;
+  //Check for adding to the files list
+  if(typeof file === 'string') { logty_files[this._id] = this._stream; }
 
   //Return this
   return this;
