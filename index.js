@@ -24,11 +24,14 @@ var logty = function(level, file)
   //Create the writer id
   this._id = 'writer' + Date.now().toString();
 
+  //Check for undefined level
+  if(typeof level === 'undefined'){ var level = 0; }
+
   //Save the level
   this._level = (typeof level === 'string') ? logty_levels.indexOf(level.toLowerCase()) : level;
 
   //Check the level value
-  if(this._level < 0 || logty_levels.length <= this._level){ this._level = logty_levels.indexOf('debug'); }
+  if(this._level < 0 || logty_levels.length <= this._level){ this._level = logty_levels.indexOf('fatal'); }
 
   //Get the stream object
   this._stream = (typeof file === 'string') ? fs.createWriteStream(file, { encoding: 'utf8', flags: 'a' }) : process.stdout;
