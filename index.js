@@ -31,7 +31,7 @@ var logty = function(level, file)
   this._level = (typeof level === 'string') ? logty_levels.indexOf(level.toLowerCase()) : level;
 
   //Check the level value
-  if(this._level < 0 || logty_levels.length <= this._level){ this._level = logty_levels.indexOf('fatal'); }
+  if(this._level < 0 || logty_levels.length <= this._level){ this._level = logty_levels.indexOf('debug'); }
 
   //Get the stream object
   this._stream = (typeof file === 'string') ? fs.createWriteStream(file, { encoding: 'utf8', flags: 'a' }) : process.stdout;
@@ -60,7 +60,7 @@ logty.prototype.end = function()
 logty.prototype.msg = function(level, message)
 {
   //Check the level
-  if(logty_levels.indexOf(level) < this._level){ return; }
+  if(logty_levels.indexOf(level) > this._level){ return; }
 
   //Get the actual date
   var d = new Date();
@@ -76,6 +76,9 @@ logty.prototype.msg = function(level, message)
 
   //Write to the stream
   this._stream.write(m);
+
+  //Return this
+  return this;
 };
 
 //For each level
