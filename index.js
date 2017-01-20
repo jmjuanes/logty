@@ -59,8 +59,17 @@ logty.prototype.msg = function(level, message)
   //Check the level
   if(logty_levels.indexOf(level) < this._level){ return; }
 
+  //Get the actual date
+  var d = new Date();
+
+  //Get the year-month-day
+  var date_day = d.getFullYear() + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + ('0' + d.getDate()).slice(-2);
+
+  //Get the date time
+  var date_time = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2);
+
   //Build the message
-  var m = '[ ] [' + level.toUpperCase() + '] ' + message + '\n';
+  var m = '[' + date_day + ' ' + date_time + '] [' + level.toUpperCase() + '] ' + message + '\n';
 
   //Write to the stream
   this._stream.write(m);
