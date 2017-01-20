@@ -36,22 +36,23 @@ This will print on console the following lines:
 [2017/01/20 18:05:20] [DEBUG] This is another log message
 ```
 
-This library accepts the following log levels:
-- Level 0: `fatal`.
-- Level 1: `error`.
-- Level 2: `warning`.
-- Level 3: `notice`.
-- Level 4: `info`.
-- Level 5: `debug`.
-
 ## API
 
 ### var log = new logty(level, [file]);
 
 Return a new `logty` object to print logs messages in a console or in a file. This method accepts the followings arguments:
 
-- `level`: an `integer` or `string` with the minimum log level. Default is `fatal`.
+- `level`: an `integer` or `string` with the minimum log level. Default is `debug`.
 - `file` (**optionally**): a string with the path of the log file where you want to append the log messages.
+
+The library accepts the following log levels:
+
+- Level 0: `fatal`.
+- Level 1: `error`.
+- Level 2: `warning`.
+- Level 3: `notice`.
+- Level 4: `info`.
+- Level 5: `debug`.
 
 ### log.end()
 
