@@ -34,6 +34,19 @@ logty.parseLevel = function(value)
   return 'debug';
 };
 
+//Check the level value
+logty.checkLevel = function(wanted_level, provided_level)
+{
+  //Get the wnted level index
+  var wanted_index = logty.levels.indexOf(wanted_level);
+
+  //Get the provided level index
+  var provided_index = logty.levels.indexOf(provided_level);
+
+  //Check the index level
+  return (wanted_index > provided_index) ? false : true;
+};
+
 //Set the default level
 logty.level = function(value)
 {
@@ -43,6 +56,32 @@ logty.level = function(value)
   //Set the level
   logty._level = logty.parseLevel(value);
 };
+
+//Generate a log message
+logty.message = function(level, message)
+{
+  //Parse the level
+  level = logty.parseLevel(level);
+
+  //Generate the log message
+};
+
+//Display a log in console for each level
+logty.levels.forEach(function(level)
+{
+  //Add the display level
+  logty[level] = function(message)
+  {
+    //Check the level
+    if(logty.checkLevel(logty._level, level) === false){ return; }
+
+    //Generate the message and print on console
+    console.log(logty.message(level, message));
+  };
+
+  //Continue with the next level
+  return true;
+});
 
 //Opened files
 logty._files = [];
@@ -89,6 +128,14 @@ logty.writer = function(file, opt)
   return this;
 };
 
+//Build a log message
+logty.writer.prototype.log = function()
+{
+  //
+  //Build the message
+  var log = logty.message()
+};
+
 //Close the writer
 logty.writer.prototype.close = function()
 {
@@ -104,16 +151,6 @@ logty.reader = function(file, opt)
 {
 
 };
-
-//Generate a log message
-logty._message = function(level, message)
-{
-  //
-};
-
-//Generate
-
-
 
 //Exports to node
 module.exports = logty;
