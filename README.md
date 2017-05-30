@@ -17,66 +17,55 @@ $ npm install --save logty
 
 ```javascript
 //Import dependencies
-var logty = require('logty');
-
-//Create the new log writer
-var log = new logty('debug');  
+var log = require('logty');
 
 //Display log messages
-log.debug('This is a test log message');
+log.notice('This is a test log message');
 
 //Display another log message
 log.debug('This is another log message');
+
+//Display a custom log message 
+log.message('my-app', 'My-App message');
 ```
 
 This will print on console the following lines:
 
 ```
-[2017/01/20 18:05:20] [DEBUG] This is a test log message
+[2017/01/20 18:05:20] [NOTICE] This is a test log message
 [2017/01/20 18:05:20] [DEBUG] This is another log message
+[2017/01/20 18:05:20] [MY-APP] My-App message
 ```
 
 ## API
 
-### var log = new logty(level, [file]);
+### logty.message(level, message)
 
-Return a new `logty` object to print logs messages in a console or in a file. This method accepts the followings arguments:
+Returns a string with the log message. This string will have the structure `[{{ date }}] [{{ level }}] {{ message }}`, where:
 
-- `level`: an `integer` or `string` with the minimum log level. Default is `debug`.
-- `file` (**optionally**): a string with the path of the log file where you want to append the log messages.
+- `date` is the actual date, in format `yyyy/mm/dd hh:mm:ss`. 
+- `level` is the first argument of this method.
+- `message` is the second argument of this method.
 
-The library accepts the following log levels:
+### logty.debug(message)
 
-- Level 0: `fatal`.
-- Level 1: `error`.
-- Level 2: `warning`.
-- Level 3: `notice`.
-- Level 4: `info`.
-- Level 5: `debug`.
+Alias of `logty.message('debug', message)`. Returns a **debug** message.
 
-### log.end()
+### logty.info(message)
 
-Closes the log file. Only valid if a file path is provided on the constructor.
+Alias of `logty.message('info', message)`. Returns an **info** message.
 
-### log.debug(message)
+### logty.notice(message)
 
-Emit a `debug` message.
+Alias of `logty.message('notice', message)`. Returns a **notice** message.
 
-### log.info(message)
+### logty.error(message)
 
-Emit a `info` message.
+Alias of `logty.message('error', message)`. Returns an **error** message.
 
-### log.notice(message)
+### logty.fatal(message)
 
-Emit a `notice` message.
-
-### log.error(message)
-
-Emit a `error` message.
-
-### log.fatal(message)
-
-Emit a `fatal` message.
+Alias of `logty.message('fatal', message)`. Returns a **fatal** message.
 
 
 ## License
