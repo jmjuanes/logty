@@ -25,7 +25,7 @@ var logty = function(level, file)
   this._id = 'writer' + Date.now().toString();
 
   //Check for undefined level
-  if(typeof level === 'undefined'){ var level = 0; }
+  if(typeof level === 'undefined'){ var level = 'debug'; }
 
   //Save the level
   this._level = (typeof level === 'string') ? logty_levels.indexOf(level.toLowerCase()) : level;
