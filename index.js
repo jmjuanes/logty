@@ -1,33 +1,69 @@
-//Logty object
-var logty = {};
-
 //Logty default levels
-logty.levels = [ 'fatal', 'error', 'warning', 'notice', 'info', 'debug' ];
+var levels = [ 'fatal', 'error', 'warning', 'notice', 'info', 'debug' ];
 
-//Display a log message
-logty.message = function(level, message)
+//Normalize a number and return it with two digits
+var normalize = function(value)
+{
+  //Return the value with two digits
+  return ('0' + value).slice(-2);
+};
+
+//Logty function
+var logty = function(tag, stream)
+{
+  //Save the tag
+  this.tag = (typeof tag === 'string') ? tag.trim() : null;
+
+  //Save the output stream
+  this.stream = (typeof stream !== 'undefined') ? stream : process.stdout;
+
+  //Return this
+  return this;
+};
+
+//Generate a log message
+logty.prototype.message = function(level, message)
 {
   //Get the actual date
   var d = new Date();
 
   //Get the year-month-day
-  var date_day = d.getFullYear() + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + ('0' + d.getDate()).slice(-2);
+  var day = [ d.getFullYear(), normalize(d.getMonth() + 1), normalize(d.getDate()) ].join('/');
 
-  //Get the date time
-  var date_time = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2);
+  //Get the actual time
+  var time = [ normalize(d.getHours()), normalize(d.getMinutes()), normalize(d.getSeconds()) ].join(':');
 
-  //Build the message and return
-  return '[' + date_day + ' ' + date_time + '] [' + level.toUpperCase() + '] ' + message;
+  //Add the date
+  list.push('[' + day + ' ' + time + ']');
+
+  //Add the level
+  list.push('[' + level.toUpperCase() + ']');
+
+  //Add the tag
+  if(this.tag)
+  {
+    //Add the tag and the two points
+    list.push(this.tag, ':');
+  }
+
+  //Add the message
+  list.push(message.trim());
+
+  //Return the log message
+  return list.join(' ');
 };
 
 //For each level
-logty.levels.forEach(function(el)
+levels.forEach(function(level)
 {
   //Register the level
-  logty[el] = function(message)
+  logty.prototype[level] = function(message)
   {
-    //Build the message for this level
-    return logty.message(el, message);
+    //Check the message
+    if(typeof message !== 'string'){ return; }
+
+    //Build the message for this level and write to the stdout
+    this.stream.write(this.message(level, message) + '\n');
   };
 });
 
