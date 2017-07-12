@@ -17,7 +17,7 @@ var tagged_log = new logty('my-tag');
 
 //Generate tagged logs
 tagged_log.debug('Tagged debug message');
-tagged_log.info('Tagged indo message');
+tagged_log.info('Tagged info message');
 tagged_log.notice('Tagged notice message');
 tagged_log.warning('Tagged warning message');
 tagged_log.error('Tagged error message');
