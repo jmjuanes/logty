@@ -26,7 +26,7 @@ logty.prototype.message = function(level, message)
 {
   //Initialize the output list
   var list = [];
-  
+
   //Get the actual date
   var d = new Date();
 
