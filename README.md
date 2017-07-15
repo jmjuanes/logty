@@ -52,7 +52,7 @@ The log string will have the following structure:
 - `date` is the actual date, in format `yyyy/mm/dd hh:mm:ss`. 
 - `level` is the first argument of this method.
 - `tag` is the tag string provided on the `logty` constructor. If no tag string is provided, this field will be omitted from the log string.
-- `message` is the second argument of this method.
+- `message` is log message.
 
 
 
