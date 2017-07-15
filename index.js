@@ -27,6 +27,9 @@ logty.prototype.message = function(level, message)
   //Initialize the output list
   var list = [];
 
+  //Add the tag
+  if(this.tag){ list.push('[' + this.tag + ']'); }
+
   //Get the actual date
   var d = new Date();
 
@@ -41,13 +44,6 @@ logty.prototype.message = function(level, message)
 
   //Add the level
   list.push('[' + level.toUpperCase() + ']');
-
-  //Add the tag
-  if(this.tag)
-  {
-    //Add the tag and the two points
-    list.push(this.tag, ':');
-  }
 
   //Add the message
   list.push(message.trim());
