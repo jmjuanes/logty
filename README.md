@@ -39,21 +39,20 @@ This will print on console the following lines:
 ```
 [2017/07/12 13:01:17] [DEBUG] This is a debug message
 [2017/07/12 13:01:17] [ERROR] This is an error message
-[2017/07/12 13:01:17] [INFO] my-tag : Tagged info message
-[2017/07/12 13:01:17] [WARNING] my-tag : Tagged warning message
+[my-tag] [2017/07/12 13:01:17] [INFO]  Tagged info message
+[my-tag] [2017/07/12 13:01:17] [WARNING] Tagged warning message
 ```
 
 The log string will have the following structure:
 
 ```
-[{{ date }}] [{{ level }}] {{ tag }} : {{ message }}
+[{{ tag }}] [{{ date }}] [{{ level }}] {{ message }}
 ```
 
+- `tag` is the tag string provided on the `logty` constructor. If no tag string is provided, this field will be omitted from the log string.
 - `date` is the actual date, in format `yyyy/mm/dd hh:mm:ss`. 
 - `level` is the first argument of this method.
-- `tag` is the tag string provided on the `logty` constructor. If no tag string is provided, this field will be omitted from the log string.
 - `message` is log message.
-
 
 
 ## API
