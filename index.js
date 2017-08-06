@@ -28,7 +28,7 @@ var logty = function(tag, stream)
 logty.prototype.level = function(level)
 {
   //Check the level value
-  if(typeof level === 'string' && typeof levels.indexOf(level) > -1)
+  if(typeof level === 'string' && levels.indexOf(level) > -1)
   {
     //Get the level value
     this.min_level = levels.indexOf(level);
