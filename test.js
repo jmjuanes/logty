@@ -22,3 +22,17 @@ tagged_log.notice('Tagged notice message');
 tagged_log.warning('Tagged warning message');
 tagged_log.error('Tagged error message');
 tagged_log.fatal('Tagged fatal message');
+
+//Log with min level
+var min_log = new logty('min-log');
+
+//Set the min log level -> hide debug, info and notice levels
+min_log.level('warning');
+
+//Generate tagged logs
+min_log.debug('Tagged debug message');
+min_log.info('Tagged info message');
+min_log.notice('Tagged notice message');
+min_log.warning('Tagged warning message');
+min_log.error('Tagged error message');
+min_log.fatal('Tagged fatal message');
