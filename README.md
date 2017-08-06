@@ -64,6 +64,19 @@ Returns a new logger for the given arguments:
 - `tag`: a string with the log tag. If not tag is provided (`null` or empty string), the tag field of the log message will be removed. 
 - `stream`: (optionally) a writable stream where the log messages will be written. Default is `process.stdout`.
 
+### log.level(level)
+
+Set the minimum log level. Available levels, in order: 
+
+- `fatal`
+- `error`
+- `warning`
+- `notice`
+- `info`
+- `debug`
+
+For example, if you set `warning` as the minimum level, all the log messages tagged as `notice`, `info` or `debug` will be omitted. 
+
 ### log.debug(message)
 
 Writes a **debug** log message on the stream provided to the constructor.
