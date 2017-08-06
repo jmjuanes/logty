@@ -17,8 +17,27 @@ var logty = function(tag, stream)
   //Save the output stream
   this.stream = (typeof stream !== 'undefined') ? stream : process.stdout;
 
+  //Minimum level
+  this.min_level = levels.length;
+
   //Return this
   return this;
+};
+
+//Set the minimum level
+logty.prototype.level = function(level)
+{
+  //Check the level value
+  if(typeof level === 'string' && typeof levels.indexOf(level) > -1)
+  {
+    //Get the level value
+    this.min_level = levels.indexOf(level);
+  }
+  else
+  {
+    //Set the default min level
+    this.min_level = levels.length;
+  }
 };
 
 //Generate a log message
@@ -53,13 +72,16 @@ logty.prototype.message = function(level, message)
 };
 
 //For each level
-levels.forEach(function(level)
+levels.forEach(function(level, index)
 {
   //Register the level
   logty.prototype[level] = function(message)
   {
     //Check the message
     if(typeof message !== 'string'){ return; }
+
+    //Check the level index
+    if(index > this.min_level){ return; }
 
     //Build the message for this level and write to the stdout
     this.stream.write(this.message(level, message) + '\n');
