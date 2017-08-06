@@ -68,21 +68,41 @@ Returns a new logger for the given arguments:
 
 Writes a **debug** log message on the stream provided to the constructor.
 
+```javascript
+log.debug('This is a debug message');
+```
+
 ### logty.info(message)
 
 Writes an **info** log message on the stream provided to the constructor.
 
+```javascript
+log.info('This is an info message');
+```
+
 ### logty.notice(message)
 
-Writes a **notice** log message on the stream provided to the constructor.
+Writes a **notice** log message on the stream provided to the constructor. 
+
+```javascript
+log.notice('This is a notice message');
+```
 
 ### logty.error(message)
 
-Writes an **error** log message on the stream provided to the constructor.
+Writes an **error** log message on the stream provided to the constructor. 
+
+```javascript
+log.error('This is an error message');
+```
 
 ### logty.fatal(message)
 
 Writes a **fatal** log message on the stream provided to the constructor.
+
+```javascript
+log.fatal('This is a fatal message');
+```
 
 
 ## License
