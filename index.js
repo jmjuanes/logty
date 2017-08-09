@@ -20,6 +20,9 @@ var logty = function(tag, stream)
   //Minimum level
   this.min_level = levels.length;
 
+  //Logs are disabled
+  this.disabled = false;
+
   //Return this
   return this;
 };
@@ -79,6 +82,9 @@ levels.forEach(function(level, index)
   {
     //Check the message
     if(typeof message !== 'string'){ return; }
+
+    //Check if the logs are disabled
+    if(this.disabled === true){ return; } 
 
     //Check the level index
     if(index > this.min_level){ return; }
