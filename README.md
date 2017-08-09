@@ -4,6 +4,7 @@
 
 [![npm](https://img.shields.io/npm/v/logty.svg?style=flat-square)](https://www.npmjs.com/package/logty)
 [![npm](https://img.shields.io/npm/dt/logty.svg?style=flat-square)](https://www.npmjs.com/package/logty)
+[![npm](https://img.shields.io/npm/l/logty.svg?style=flat-square)](https://github.com/jmjuanes/logty)
 
 ## Install
 
