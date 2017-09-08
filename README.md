@@ -16,7 +16,7 @@ $ npm install --save logty
 
 ## Usage
 
-`logty` creates a [Readable Stream](https://nodejs.org/dist/latest-v6.x/docs/api/stream.html#stream_readable_streams) that can emit logs messages.
+`logty` creates a [Readable Stream](https://nodejs.org/api/stream.html#stream_readable_streams) that can emit logs messages.
 
 Pipe log messages to `process.stdout`: 
 
@@ -92,7 +92,7 @@ The log string will have the following structure:
 
 ### var log = new logty(options)
 
-Returns a new [`Readable Stream`](https://nodejs.org/dist/latest-v6.x/docs/api/stream.html#stream_readable_streams). The `options` argument must be an object with the following attributes: 
+Returns a new [`Readable Stream`](https://nodejs.org/api/stream.html#stream_readable_streams). The `options` argument must be an object with the following attributes: 
 
 - `tag`: (optionally) a string with the log tag. If not tag is provided (`null` or empty string), the tag field of the log message will be removed. 
 - `encoding`: (optionally) the stream encoding. Default is `utf8`.
