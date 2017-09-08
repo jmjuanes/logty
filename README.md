@@ -63,7 +63,15 @@ The log string will have the following structure:
 Returns a new logger for the given arguments: 
 
 - `tag`: a string with the log tag. If not tag is provided (`null` or empty string), the tag field of the log message will be removed. 
-- `stream`: (optionally) a writable stream where the log messages will be written. Default is `process.stdout`.
+- `stream`: (optionally) a [writable stream](https://nodejs.org/dist/latest-v6.x/docs/api/stream.html#stream_writable_streams) where the log messages will be written. Default is `process.stdout`.
+
+### Event: 'error'
+
+The `error` event is emitted if an error occurred while writing the log messages into the provided stream. an `Error` object will be passed to the listener callback with the error information. 
+
+### Event: 'finish'
+
+The `finish` event is emitted after the `log.end()` method has been called. This event will be emitted only if the writable stream provided is not [`process.stdout`](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_process_stdout) or [`process.stderr`](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_process_stderr), because these streams can not be closed ([see this note](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_a_note_on_process_i_o)).
 
 ### log.level(level)
 
@@ -117,6 +125,10 @@ Writes a **fatal** log message on the stream provided to the constructor.
 ```javascript
 log.fatal('This is a fatal message');
 ```
+
+### log.end()
+
+Closes the provided stream. Only works if the provided stream is not `process.stdout` or `process.stderr`.
 
 
 ## License
