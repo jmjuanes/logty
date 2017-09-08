@@ -53,7 +53,7 @@ var logty = function(tag, opt)
   if(typeof opt.encoding !== 'string'){ opt.encoding = 'utf8'; }
 
   //Extends the readable stream
-  stream.Readable.call(this, opt);
+  stream.Readable.call(this, { encoding: opt.encoding });
 
   //Save the tag
   this.tag = (typeof tag === 'string') ? tag.trim() : null;
