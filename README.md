@@ -94,7 +94,7 @@ Writes a **debug** log message on the stream provided to the constructor.
 log.debug('This is a debug message');
 ```
 
-### logty.info(message)
+### log.info(message)
 
 Writes an **info** log message on the stream provided to the constructor.
 
@@ -102,7 +102,7 @@ Writes an **info** log message on the stream provided to the constructor.
 log.info('This is an info message');
 ```
 
-### logty.notice(message)
+### log.notice(message)
 
 Writes a **notice** log message on the stream provided to the constructor. 
 
@@ -110,7 +110,7 @@ Writes a **notice** log message on the stream provided to the constructor.
 log.notice('This is a notice message');
 ```
 
-### logty.error(message)
+### log.error(message)
 
 Writes an **error** log message on the stream provided to the constructor. 
 
@@ -118,7 +118,7 @@ Writes an **error** log message on the stream provided to the constructor.
 log.error('This is an error message');
 ```
 
-### logty.fatal(message)
+### log.fatal(message)
 
 Writes a **fatal** log message on the stream provided to the constructor.
 
