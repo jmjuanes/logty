@@ -5,7 +5,11 @@
   "keywords": [ "log", "logger", "debug", "stream", "console" ],
   "author": "Josemi Juanes <josemijuanes@gmail.com>",
   "main": "./index.js",
-  "repository": { "type": "git", "url": "https://github.com/jmjuanes/logty" },
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/jmjuanes/logty"
+  },
   "dependencies": { },
   "license": "MIT"
 }
