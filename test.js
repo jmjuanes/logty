@@ -3,7 +3,7 @@ var logty = require('./index.js');
 var fs = require('fs');
 
 //Simple log messages without tag
-var simple_log = new logty('');
+var simple_log = new logty();
 
 //Pipe to stdout
 simple_log.pipe(process.stdout);
@@ -21,7 +21,7 @@ simple_log.end();
 
 
 //Log with tag
-var tagged_log = new logty('my-tag');
+var tagged_log = new logty({ tag: 'my-tag' });
 
 //Pipe to stdout
 tagged_log.pipe(process.stdout);
@@ -39,7 +39,7 @@ tagged_log.end();
 
 
 //Log with min level
-var min_log = new logty('min-log');
+var min_log = new logty({ tag: 'min-log' });
 
 //Pipe to stdout
 min_log.pipe(process.stdout);
@@ -60,7 +60,7 @@ min_log.end();
 
 
 //Write to a file
-var file_log = new logty(null);
+var file_log = new logty();
 
 //Pipe to a writable stream
 file_log.pipe(fs.createWriteStream('./test.log', { defaultEncoding: 'utf8', flags: 'a' }));
