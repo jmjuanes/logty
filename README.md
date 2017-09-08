@@ -121,6 +121,10 @@ The `error` event is emitted if an error occurred while writing the log messages
 
 The `end` event is emitted after the `log.end()` method has been called. 
 
+### log.pipe(writer)
+
+Pipe log messages to a [`Writable Stream`](https://nodejs.org/api/stream.html#stream_writable_streams).
+
 ### log.level(level)
 
 Set the minimum log level. Available levels, in order: 
