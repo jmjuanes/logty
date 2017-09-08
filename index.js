@@ -1,7 +1,6 @@
 //Import dependencies
 var stream = require('stream');
 var util = require('util');
-var events = require("events");
 
 //Logty default levels
 var levels = [ 'fatal', 'error', 'warning', 'notice', 'info', 'debug' ];
@@ -13,35 +12,51 @@ var normalize = function(value)
   return ('0' + value).slice(-2);
 };
 
-//Logty function
-var logty = function(tag, writable)
+//Generate a log message
+var message = function(level, tag, text)
 {
-  //Extend with the events emitter
-  events.EventEmitter.call(this);
+  //Initialize the output list
+  var list = [];
+
+  //Add the tag
+  if(tag){ list.push('[' + tag + ']'); }
+
+  //Get the actual date
+  var d = new Date();
+
+  //Get the year-month-day
+  var day = [ d.getFullYear(), normalize(d.getMonth() + 1), normalize(d.getDate()) ].join('/');
+
+  //Get the actual time
+  var time = [ normalize(d.getHours()), normalize(d.getMinutes()), normalize(d.getSeconds()) ].join(':');
+
+  //Add the date
+  list.push('[' + day + ' ' + time + ']');
+
+  //Add the level
+  list.push('[' + level.toUpperCase() + ']');
+
+  //Add the text
+  list.push(text.trim());
+
+  //Return the log message
+  return list.join(' ') + '\n';
+};
+
+//Logty readable stream
+var logty = function(tag, opt)
+{
+  //Check the options object
+  if(typeof opt !== 'object'){ opt = {}; }
+
+  //Check the encoding value
+  if(typeof opt.encoding !== 'string'){ opt.encoding = 'utf8'; }
+
+  //Extends the readable stream
+  stream.Readable.call(this, opt);
 
   //Save the tag
   this.tag = (typeof tag === 'string') ? tag.trim() : null;
-
-  //Check the stream object
-  if(typeof writable === 'object')
-  {
-    //Check for an instance of a writable stream
-    if(writable instanceof stream.Writable === true)
-    {
-      //Save the stream object
-      this.stream = writable;
-    }
-    else
-    {
-      //Throw a new Error
-      throw new Error('Only writable streams are allowed');
-    }
-  }
-  else
-  {
-    //Save the stream as the process.stdout
-    this.stream = process.stdout;
-  }
 
   //Minimum level
   this.min_level = levels.length;
@@ -49,29 +64,12 @@ var logty = function(tag, writable)
   //Logs are disabled
   this.disabled = false;
 
-  //Save this
-  var self = this;
-
-  //Register the stream error event listener
-  this.stream.on('error', function(error)
-  {
-    //Emit the logty error event
-    self.emit('error', error);
-  });
-
-  //Register the stream finish event listener
-  this.stream.on('finish', function()
-  {
-    //Emit the logty finish event
-    self.emit('finish');
-  });
-
   //Return this
   return this;
 };
 
-//Inherit from EventEmitter
-util.inherits(logty, events.EventEmitter);
+//Inherits from Readable stream
+util.inherits(logty, stream.Readable);
 
 //Set the minimum level
 logty.prototype.level = function(level)
@@ -89,45 +87,14 @@ logty.prototype.level = function(level)
   }
 };
 
-//Generate a log message
-logty.prototype.message = function(level, message)
-{
-  //Initialize the output list
-  var list = [];
-
-  //Add the tag
-  if(this.tag){ list.push('[' + this.tag + ']'); }
-
-  //Get the actual date
-  var d = new Date();
-
-  //Get the year-month-day
-  var day = [ d.getFullYear(), normalize(d.getMonth() + 1), normalize(d.getDate()) ].join('/');
-
-  //Get the actual time
-  var time = [ normalize(d.getHours()), normalize(d.getMinutes()), normalize(d.getSeconds()) ].join(':');
-
-  //Add the date
-  list.push('[' + day + ' ' + time + ']');
-
-  //Add the level
-  list.push('[' + level.toUpperCase() + ']');
-
-  //Add the message
-  list.push(message.trim());
-
-  //Return the log message
-  return list.join(' ');
-};
-
 //For each level
 levels.forEach(function(level, index)
 {
   //Register the level
-  logty.prototype[level] = function(message)
+  logty.prototype[level] = function(text)
   {
     //Check the message
-    if(typeof message !== 'string'){ return; }
+    if(typeof text !== 'string'){ return; }
 
     //Check if the logs are disabled
     if(this.disabled === true){ return; } 
@@ -135,28 +102,19 @@ levels.forEach(function(level, index)
     //Check the level index
     if(index > this.min_level){ return; }
 
-    //Build the message for this level and write to the stdout
-    this.stream.write(this.message(level, message) + '\n');
+    //Build the message for this level and emit the data event
+    this.push(message(level, this.tag, text), 'utf8');
   };
 });
+
+//Empty read method
+logty.prototype._read = function(){ return; };
 
 //Close the writable stream
 logty.prototype.end = function()
 {
-  try
-  {
-    //Check if the stream is not the stdout or the stderr
-    if(this.stream !== process.stdout && this.stream !== process.stderr)
-    {
-      //End the stream
-      this.stream.end('');
-    }
-  }
-  catch(error)
-  {
-    //Emit the error
-    this.emit('error', error);
-  }
+  //Emit the end event
+  this.emit('end');
 };
 
 //Exports to node
