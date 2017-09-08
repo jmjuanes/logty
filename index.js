@@ -103,7 +103,8 @@ levels.forEach(function(level, index)
     if(index > this.min_level){ return; }
 
     //Build the message for this level and emit the data event
-    this.push(message(level, this.tag, text), 'utf8');
+    //this.push(message(level, this.tag, text), 'utf8');
+    this.emit('data', message(level, this.tag, text));
   };
 });
 
@@ -113,6 +114,9 @@ logty.prototype._read = function(){ return; };
 //Close the writable stream
 logty.prototype.end = function()
 {
+  //Disable logs
+  this.disabled = true;
+
   //Emit the end event
   this.emit('end');
 };
