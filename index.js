@@ -44,10 +44,13 @@ var message = function(level, tag, text)
 };
 
 //Logty readable stream
-var logty = function(tag, opt)
+var logty = function(opt)
 {
   //Check the options object
   if(typeof opt !== 'object'){ opt = {}; }
+
+  //Check the tag value
+  if(typeof opt.tag !== 'string'){ opt.tag = null; }
 
   //Check the encoding value
   if(typeof opt.encoding !== 'string'){ opt.encoding = 'utf8'; }
@@ -56,7 +59,7 @@ var logty = function(tag, opt)
   stream.Readable.call(this, { encoding: opt.encoding });
 
   //Save the tag
-  this.tag = (typeof tag === 'string') ? tag.trim() : null;
+  this.tag = (typeof opt.tag === 'string') ? opt.tag.trim() : null;
 
   //Minimum level
   this.min_level = levels.length;
