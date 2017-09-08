@@ -1,6 +1,6 @@
 # logty
 
-> A dead simple log library
+> A dead simple log library using streams
 
 [![npm](https://img.shields.io/npm/v/logty.svg?style=flat-square)](https://www.npmjs.com/package/logty)
 [![npm](https://img.shields.io/npm/dt/logty.svg?style=flat-square)](https://www.npmjs.com/package/logty)
@@ -16,33 +16,65 @@ $ npm install --save logty
 
 ## Usage
 
+`logty` creates a [Readable Stream](https://nodejs.org/dist/latest-v6.x/docs/api/stream.html#stream_readable_streams) that can emit logs messages.
+
+Pipe log messages to `process.stdout`: 
+
 ```javascript
 //Import logty
 var logty = require('logty');
 
-//Simple log messages without tag
-var simple_log = new logty('');
+//Initialize the log stream
+var log = new logty(null, { encoding: 'utf8' });
+
+//Pipe the log messages to process.stdout 
+log.pipe(process.stdout);
 
 //Generate simple log messages
-simple_log.debug('This is a debug message');
-simple_log.error('This is an error message');
+log.debug('This is a debug message');
+log.error('This is an error message');
 
-//Log with tag
-var tagged_log = new logty('my-tag');
-
-//Generate tagged logs
-tagged_log.info('Tagged info message');
-tagged_log.warning('Tagged warning message');
+//Close the log stream 
+log.end();
 ```
-
 This will print on console the following lines:
 
 ```
 [2017/07/12 13:01:17] [DEBUG] This is a debug message
 [2017/07/12 13:01:17] [ERROR] This is an error message
-[my-tag] [2017/07/12 13:01:17] [INFO]  Tagged info message
-[my-tag] [2017/07/12 13:01:17] [WARNING] Tagged warning message
 ```
+
+You can pipe log messages to a file: 
+```javascript
+//Import dependencies
+var logty = require('logty');
+var fs = require('fs');
+
+//Initialize the log stream
+var log = new logty(null, { encoding: 'utf8' }); 
+
+//Initialize the writable stream 
+var writer = fs.createWriteStream('./my-logs.txt', { defaultEncoding: 'utf8', flags: 'a' });
+
+//Pipe the logs stream to the writer
+logs.pipe(writer);
+
+//Generate logs
+log.info('This is an info message');
+log.error('This is an error message');
+
+//Close the log stream 
+log.end();
+```
+
+Content of the file:
+
+```
+$ cat my-logs.txt
+[2017/07/12 13:01:17] [INFO] This is a info message
+[2017/07/12 13:01:17] [ERROR] This is an error message
+```
+
 
 The log string will have the following structure:
 
@@ -58,20 +90,36 @@ The log string will have the following structure:
 
 ## API
 
-### var log = new logty(tag \[, stream\])
+### var log = new logty(options)
 
-Returns a new logger for the given arguments: 
+Returns a new [`Readable Stream`](https://nodejs.org/dist/latest-v6.x/docs/api/stream.html#stream_readable_streams). The `options` argument must be an object with the following attributes: 
 
-- `tag`: a string with the log tag. If not tag is provided (`null` or empty string), the tag field of the log message will be removed. 
-- `stream`: (optionally) a [writable stream](https://nodejs.org/dist/latest-v6.x/docs/api/stream.html#stream_writable_streams) where the log messages will be written. Default is `process.stdout`.
+- `tag`: (optionally) a string with the log tag. If not tag is provided (`null` or empty string), the tag field of the log message will be removed. 
+- `encoding`: (optionally) the stream encoding. Default is `utf8`.
+
+### Event: 'data'
+
+The data event will be emitted when a new log message is generated using the `log.debug`, `log.info`, `log.notice`, `log.warning`, `log.error` or `log.fatal` methods.
+
+```javascript
+var log = new logty();
+log.on('data', function(message)
+{
+  //New log message generated
+  // . . . 
+});
+
+//Emit a debug message 
+log.debug('This is a debug message');
+```
 
 ### Event: 'error'
 
 The `error` event is emitted if an error occurred while writing the log messages into the provided stream. an `Error` object will be passed to the listener callback with the error information. 
 
-### Event: 'finish'
+### Event: 'end'
 
-The `finish` event is emitted after the `log.end()` method has been called. This event will be emitted only if the writable stream provided is not [`process.stdout`](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_process_stdout) or [`process.stderr`](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_process_stderr), because these streams can not be closed ([see this note](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_a_note_on_process_i_o)).
+The `end` event is emitted after the `log.end()` method has been called. 
 
 ### log.level(level)
 
@@ -84,51 +132,53 @@ Set the minimum log level. Available levels, in order:
 - `info`
 - `debug`
 
-For example, if you set `warning` as the minimum level, all the log messages tagged as `notice`, `info` or `debug` will be omitted. 
+For example, if you set `warning` as the minimum level, all the `notice`, `info` or `debug` messages will be omitted. 
 
 ### log.debug(message)
 
-Writes a **debug** log message on the stream provided to the constructor.
-
 ```javascript
 log.debug('This is a debug message');
+// -> [YYYY/MM/DD hh:mm:ss] [DEBUG] This is a debug message
 ```
 
 ### log.info(message)
 
-Writes an **info** log message on the stream provided to the constructor.
-
 ```javascript
 log.info('This is an info message');
+// -> [YYYY/MM/DD hh:mm:ss] [INFO] This is an info message
 ```
 
 ### log.notice(message)
 
-Writes a **notice** log message on the stream provided to the constructor. 
-
 ```javascript
 log.notice('This is a notice message');
+// -> [YYYY/MM/DD hh:mm:ss] [NOTICE] This is a notice message
+```
+
+### log.warning(message)
+
+```javascript
+log.fatal('This is a warning message');
+// -> [YYYY/MM/DD hh:mm:ss] [WARNING] This is a warning message
 ```
 
 ### log.error(message)
 
-Writes an **error** log message on the stream provided to the constructor. 
-
 ```javascript
 log.error('This is an error message');
+// -> [YYYY/MM/DD hh:mm:ss] [ERROR] This is an error message
 ```
 
 ### log.fatal(message)
 
-Writes a **fatal** log message on the stream provided to the constructor.
-
 ```javascript
 log.fatal('This is a fatal message');
+// -> [YYYY/MM/DD hh:mm:ss] [FATAL] This is a fatal message
 ```
 
 ### log.end()
 
-Closes the provided stream. Only works if the provided stream is not `process.stdout` or `process.stderr`.
+Closes the log stream. 
 
 
 ## License
