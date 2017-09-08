@@ -1,3 +1,8 @@
+//Import dependencies
+var stream = require('stream');
+var util = require('util');
+var events = require("events");
+
 //Logty default levels
 var levels = [ 'fatal', 'error', 'warning', 'notice', 'info', 'debug' ];
 
@@ -9,13 +14,34 @@ var normalize = function(value)
 };
 
 //Logty function
-var logty = function(tag, stream)
+var logty = function(tag, writable)
 {
+  //Extend with the events emitter
+  events.EventEmitter.call(this);
+
   //Save the tag
   this.tag = (typeof tag === 'string') ? tag.trim() : null;
 
-  //Save the output stream
-  this.stream = (typeof stream !== 'undefined') ? stream : process.stdout;
+  //Check the stream object
+  if(typeof writable === 'object')
+  {
+    //Check for an instance of a writable stream
+    if(writable instanceof stream.Writable === true)
+    {
+      //Save the stream object
+      this.stream = writable;
+    }
+    else
+    {
+      //Throw a new Error
+      throw new Error('Only writable streams are allowed');
+    }
+  }
+  else
+  {
+    //Save the stream as the process.stdout
+    this.stream = process.stdout;
+  }
 
   //Minimum level
   this.min_level = levels.length;
@@ -23,9 +49,29 @@ var logty = function(tag, stream)
   //Logs are disabled
   this.disabled = false;
 
+  //Save this
+  var self = this;
+
+  //Register the stream error event listener
+  this.stream.on('error', function(error)
+  {
+    //Emit the logty error event
+    self.emit('error', error);
+  });
+
+  //Register the stream finish event listener
+  this.stream.on('finish', function()
+  {
+    //Emit the logty finish event
+    self.emit('finish');
+  });
+
   //Return this
   return this;
 };
+
+//Inherit from EventEmitter
+util.inherits(logty, events.EventEmitter);
 
 //Set the minimum level
 logty.prototype.level = function(level)
@@ -93,6 +139,25 @@ levels.forEach(function(level, index)
     this.stream.write(this.message(level, message) + '\n');
   };
 });
+
+//Close the writable stream
+logty.prototype.end = function()
+{
+  try
+  {
+    //Check if the stream is not the stdout or the stderr
+    if(this.stream !== process.stdout && this.stream !== process.stderr)
+    {
+      //End the stream
+      this.stream.end('');
+    }
+  }
+  catch(error)
+  {
+    //Emit the error
+    this.emit('error', error);
+  }
+};
 
 //Exports to node
 module.exports = logty;
