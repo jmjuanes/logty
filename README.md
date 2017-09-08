@@ -1,6 +1,6 @@
 # logty
 
-> A dead simple log library using streams
+> A dead simple streaming logger.
 
 [![npm](https://img.shields.io/npm/v/logty.svg?style=flat-square)](https://www.npmjs.com/package/logty)
 [![npm](https://img.shields.io/npm/dt/logty.svg?style=flat-square)](https://www.npmjs.com/package/logty)
