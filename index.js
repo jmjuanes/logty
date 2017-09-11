@@ -47,7 +47,7 @@ var message = function(level, tag, text)
 var logty = function(opt)
 {
   //Check the options object
-  if(typeof opt !== 'object'){ opt = {}; }
+  if(typeof opt !== 'object' || opt === null){ opt = {}; }
 
   //Check the tag value
   if(typeof opt.tag !== 'string'){ opt.tag = null; }
