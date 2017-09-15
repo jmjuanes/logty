@@ -62,14 +62,20 @@ min_log.end();
 //Write to a file
 var file_log = new logty();
 
+//Initialize the writer stream
+var writer = fs.createWriteStream('./test.log', { defaultEncoding: 'utf8', flags: 'a' });
+
 //Pipe to a writable stream
-file_log.pipe(fs.createWriteStream('./test.log', { defaultEncoding: 'utf8', flags: 'a' }));
+file_log.pipe(writer);
 
 //Register the error event listeners
 file_log.on('error', function(error){ console.error(error); });
 
 //Register the end event listener
 file_log.on('end', function(){ console.log('Log stream closed!'); });
+
+//Writer finished
+writer.on('finish', function(){ console.log('Writer closed!'); });
 
 //Generate logs
 file_log.debug('Tagged debug message');
