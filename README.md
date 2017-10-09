@@ -76,16 +76,19 @@ $ cat my-logs.txt
 ```
 
 
-The log string will have the following structure:
+The log string will have the following **default** structure:
 
 ```
-[{{ tag }}] [{{ date }}] [{{ level }}] {{ message }}
+[{{ tag }}] [{{ day }} {{ time }}] [{{ level }}] {{ message }}
 ```
 
 - `tag` is the tag string provided on the `logty` constructor. If no tag string is provided, this field will be omitted from the log string.
-- `date` is the actual date, in format `yyyy/mm/dd hh:mm:ss`. 
+- `day` is the actual day, with the format format `yyyy/mm/dd`. 
+- `time` is the actual time, with the format `hh:mm:ss`. 
 - `level` is the first argument of this method.
 - `message` is log message.
+
+You can change this structure using the [`log.format`](#logformatfn) method.
 
 
 ## API
