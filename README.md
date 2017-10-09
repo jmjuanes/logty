@@ -125,6 +125,26 @@ The `end` event is emitted after the `log.end()` method has been called.
 
 Pipe log messages to a [`Writable Stream`](https://nodejs.org/api/stream.html#stream_writable_streams).
 
+### log.format(fn)
+
+Use this method to print your custom log messages. The `fn` argument must be a function that will be execute every log request with the following arguments: 
+- `tag`: the log tag string.
+- `day`: a string with the format `yyyy/mm/dd`.
+- `time`: a string with the format `hh:mm:ss`. 
+- `level`: a string with the log level.
+- `message`: a string with the log message.
+
+```javascript
+log.format(function(tag, day, time, level, message)
+{
+  //Only print the level and the message 
+  return '[' + level.toUpperCase() + '] ' + message;
+});
+
+log.debug('A debug message'); // --> [DEBUG] A debug message
+
+```
+
 ### log.level(level)
 
 Set the minimum log level. Available levels, in order: 
