@@ -12,37 +12,6 @@ var normalize = function(value)
   return ('0' + value).slice(-2);
 };
 
-//Generate a log message
-var message = function(level, tag, text)
-{
-  //Initialize the output list
-  var list = [];
-
-  //Add the tag
-  if(tag){ list.push('[' + tag + ']'); }
-
-  //Get the actual date
-  var d = new Date();
-
-  //Get the year-month-day
-  var day = [ d.getFullYear(), normalize(d.getMonth() + 1), normalize(d.getDate()) ].join('/');
-
-  //Get the actual time
-  var time = [ normalize(d.getHours()), normalize(d.getMinutes()), normalize(d.getSeconds()) ].join(':');
-
-  //Add the date
-  list.push('[' + day + ' ' + time + ']');
-
-  //Add the level
-  list.push('[' + level.toUpperCase() + ']');
-
-  //Add the text
-  list.push(text.trim());
-
-  //Return the log message
-  return list.join(' ') + '\n';
-};
-
 //Logty readable stream
 var logty = function(opt)
 {
@@ -67,6 +36,28 @@ var logty = function(opt)
   //Logs are disabled
   this.disabled = false;
 
+  //Initialize the log format method
+  this._format = function(tag, day, time, level, message)
+  {
+    //Initialize the output list
+    var list = [];
+
+    //Add the tag
+    if(tag){ list.push('[' + tag + ']'); }
+
+    //Add the date
+    list.push('[' + day + ' ' + time + ']');
+
+    //Add the level
+    list.push('[' + level.toUpperCase() + ']');
+
+    //Add the text
+    list.push(message.trim());
+
+    //Return the log message
+    return list.join(' ');
+  };
+
   //Return this
   return this;
 };
@@ -90,6 +81,22 @@ logty.prototype.level = function(level)
   }
 };
 
+//Set the message format
+logty.prototype.format = function(format)
+{
+  //Check the format function
+  if(typeof format !== 'function')
+  {
+    throw new Error('Format must be a function');
+  }
+
+  //Save the format function
+  this._format = format;
+
+  //Continue
+  return this;
+};
+
 //For each level
 levels.forEach(function(level, index)
 {
@@ -105,9 +112,21 @@ levels.forEach(function(level, index)
     //Check the level index
     if(index > this.min_level){ return; }
 
+    //Get the actual date
+    var d = new Date();
+
+    //Get the year-month-day
+    var day = [ d.getFullYear(), normalize(d.getMonth() + 1), normalize(d.getDate()) ].join('/');
+
+    //Get the actual time
+    var time = [ normalize(d.getHours()), normalize(d.getMinutes()), normalize(d.getSeconds()) ].join(':');
+
+    //Get the log string
+    var str = this._format.call(null, this.tag, day, time, level, text);
+
     //Build the message for this level and emit the data event
     //this.push(message(level, this.tag, text), 'utf8');
-    this.emit('data', message(level, this.tag, text));
+    this.emit('data', str + '\n');
   };
 });
 
