@@ -11,5 +11,9 @@
     "url": "https://github.com/jmjuanes/logty"
   },
   "dependencies": { },
-  "license": "MIT"
+  "license": "MIT",
+  "scripts":
+  {
+    "test": "node test.js"
+  }
 }
