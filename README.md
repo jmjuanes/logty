@@ -127,7 +127,7 @@ Pipe log messages to a [`Writable Stream`](https://nodejs.org/api/stream.html#st
 
 ### log.format(fn)
 
-Use this method to print your custom log messages. The `fn` argument must be a function that will be execute every log request with the following arguments: 
+Use this method to print your custom log messages. The `fn` argument must be a function that will be execute each log request with the following arguments: 
 - `tag`: the log tag string.
 - `day`: a string with the format `yyyy/mm/dd`.
 - `time`: a string with the format `hh:mm:ss`. 
