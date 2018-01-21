@@ -1,6 +1,7 @@
-#!/usr/bin/env node
 
-let logty = require("./index.js");
+let current = require("./lib/current.js");
+let levels = require('./lib/levels.js');
+var message = require('./lib/message.js');
 let pkg = require("./package.json");
 
 let args = process.argv.slice(2);
@@ -46,17 +47,17 @@ let levelValue = findOption(null, "level", null);
 let messageValue = findOption(null, "message", null);
 
 if (typeof levelValue !== "string" || typeof messageValue !== "string") {
-    return console.log("Level and message options are mandatory!");
+    return console.error("Level and message options are mandatory!");
 }
 
-let levelsList = logty.getDefaultLevels();
+let levelsList = levels();
 if (levelsList.indexOf(levelValue.toLowerCase().trim()) === -1) {
     levelValue = "debug";
 }
 
 //Generate the log message
-let currentDay = logty.getCurrentDay();
-let currentTime = logty.getCurrentTime();
+let currentDay = current.getDay();
+let currentTime = current.getTime();
 
-return console.log(logty.getDefaultMessage(null, currentDay, currentTime, levelValue, messageValue));
+return console.log(message(null, currentDay, currentTime, levelValue, messageValue));
 
