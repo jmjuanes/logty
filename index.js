@@ -102,10 +102,10 @@ levels.forEach(function (level, index) {
 
         let day = getCurrentDay();
         let time = getCurrentTime();
-        let str = this._format.call(null, this.tag, day, time, level, text);
+        let str = this._format.call(null, this._tag, day, time, level, text);
 
         //Build the message for this level and emit the data event
-        //this.push(message(level, this.tag, text), "utf8");
+        //this.push(message(level, this._tag, text), "utf8");
         this.emit("data", str + "\n");
         return this;
     };
