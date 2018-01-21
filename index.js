@@ -54,7 +54,7 @@ var logty = function (opt) {
 util.inherits(logty, stream.Readable);
 
 //Set the minimum level
-logty.prototype.level = function (level) {
+logty.prototype.setLevel = function (level) {
     if (typeof level === 'string' && levels.indexOf(level) > -1) {
         this._level = levels.indexOf(level);
     }
@@ -65,7 +65,7 @@ logty.prototype.level = function (level) {
 };
 
 //Set the message format
-logty.prototype.format = function (format) {
+logty.prototype.setFormat = function (format) {
     if (typeof format !== 'function') {
         throw new Error('Format must be a function');
     }
