@@ -79,10 +79,7 @@ levels.forEach(function (level, index) {
         if (typeof text !== 'string') {
             return;
         }
-        if (this._disabled === true) {
-            return;
-        }
-        if (index > this._level) {
+        if (this._disabled === true || this._level < index) {
             return;
         }
 
