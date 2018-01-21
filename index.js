@@ -2,16 +2,33 @@ var stream = require("stream");
 var util = require("util");
 
 //Default levels list
-var levels = ["fatal", "error", "warning", "notice", "info", "debug"];
+let levels = ["fatal", "error", "warning", "notice", "info", "debug"];
 
 //Normalize a number and return it with two digits
-var normalize = function (value) {
+let normalize = function (value) {
     return ("0" + value).slice(-2);
 };
 
-//Default message format function
-var defaultMessage = function(tag, day, time, level, message) {
-    var list = [];
+//Get the default levels
+let getDefaultLevels = function () {
+    return levels.slice(0);
+};
+
+//Get the current day
+let getCurrentDay = function () {
+    let d = new Date();
+    return [d.getFullYear(), normalize(d.getMonth() + 1), normalize(d.getDate())].join("/");
+};
+
+//Get the current time
+let getCurrentTime = function () {
+    let d = new Date();
+    return [normalize(d.getHours()), normalize(d.getMinutes()), normalize(d.getSeconds())].join(":");
+};
+
+//Generate the default message
+let getDefaultMessage = function (tag, day, time, level, message) {
+    let list = [];
 
     if (tag) {
         list.push("[" + tag + "]");
@@ -44,7 +61,7 @@ var logty = function (opt) {
 
     //Default message format
     this._format = function (tag, day, time, level, message) {
-        return defaultMessage(tag, day, time, level, message);
+        return getDefaultMessage(tag, day, time, level, message);
     };
 
     return this;
@@ -83,9 +100,8 @@ levels.forEach(function (level, index) {
             return;
         }
 
-        let d = new Date();
-        let day = [d.getFullYear(), normalize(d.getMonth() + 1), normalize(d.getDate())].join("/");
-        let time = [normalize(d.getHours()), normalize(d.getMinutes()), normalize(d.getSeconds())].join(":");
+        let day = getCurrentDay();
+        let time = getCurrentTime();
         let str = this._format.call(null, this.tag, day, time, level, text);
 
         //Build the message for this level and emit the data event
@@ -107,6 +123,9 @@ logty.prototype.end = function () {
     return this;
 };
 
-//Exports to node
+//Exports
 module.exports = logty;
-module.exports.defaultMessage = defaultMessage;
+module.exports.getDefaultMessage = getDefaultMessage;
+module.exports.getCurrentDay = getCurrentDay;
+module.exports.getCurrentTime = getCurrentTime;
+module.exports.getDefaultLevels = getDefaultLevels;
