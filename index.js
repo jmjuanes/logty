@@ -109,3 +109,4 @@ logty.prototype.end = function () {
 
 //Exports to node
 module.exports = logty;
+module.exports.defaultMessage = defaultMessage;
