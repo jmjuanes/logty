@@ -50,7 +50,7 @@ if (typeof levelValue !== "string" || typeof messageValue !== "string") {
 }
 
 let levelsList = logty.getDefaultLevels();
-if(levelsList.indexOf(levelValue.toLowerCase().trim()) === -1) {
+if (levelsList.indexOf(levelValue.toLowerCase().trim()) === -1) {
     levelValue = "debug";
 }
 
