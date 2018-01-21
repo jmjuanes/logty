@@ -251,13 +251,16 @@ Options:
   -h, --help             Display this usage guide.
 ```
 
-Example of use: 
+Example of use in a bash script: 
 
 ```bash
 #!/usr/bin/env bash
 
 ## Display a debug message
 logty --level debug --message "Hello world!" ## --> [2018/01/21 21:04:32] [DEBUG] Hello world!
+
+## Display a error message 
+logty --level error --message "An error message" ## --> [2018/01/21 21:04:32] [ERROR] An error message
 ```
 
 
