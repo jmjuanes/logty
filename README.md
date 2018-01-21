@@ -54,7 +54,7 @@ var fs = require('fs');
 var log = new logty(null, { encoding: 'utf8' }); 
 
 //Initialize the writable stream 
-var writer = fs.createWriteStream('./my-logs.txt', { defaultEncoding: 'utf8', flags: 'a' });
+var writer = fs.createWriteStream('./my-logs.txt', { encoding: 'utf8', flags: 'a' });
 
 //Pipe the logs stream to the writer
 logs.pipe(writer);
