@@ -165,6 +165,13 @@ Set the minimum log level. Available levels, in order:
 
 For example, if you set `warning` as the minimum level, all the `notice`, `info` or `debug` messages will be omitted. 
 
+```javascript
+//Only pipe messages with a higher level than 'info' 
+log.setLevel('info');
+log.info('This is an info message'); // --> info >= info, so this message will be piped
+log.debug('This is a debug message'); // --> info > debug, so this message will be ignored
+```
+
 ### log.debug(message)
 
 ```javascript
