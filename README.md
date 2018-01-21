@@ -8,11 +8,20 @@
 
 ## Install
 
-You can install the latest version of the package using **npm**:
+You can install the latest version of the package in your project running the following command:
 
 ```
 $ npm install --save logty
 ```
+
+Or you can install the global utility to print logging messages in your console running the following command: 
+
+```
+$ npm install --global logty
+```
+
+See [CLI Usage](#cli-usage) for more information.
+
 
 ## Usage
 
@@ -217,6 +226,39 @@ log.fatal('This is a fatal message');
 ### log.end()
 
 Closes the log stream. 
+
+
+## CLI Usage
+
+You can use `logty` in your terminal or in your bash scripts by installing this module globally with `npm`. Simply run this command in your terminal: 
+
+```
+$ npm install --global logty
+```
+
+You can print the `logty` usage guide running `logty --help`:
+
+```
+$ logty --help 
+logty v0.5.0
+
+Usage:
+  $ logty --level <level> --message <message>
+
+Options:
+  --level STRING         (Mandatory!) Logging level.
+  --message STRING       (Mandatory!) Logging message to display.
+  -h, --help             Display this usage guide.
+```
+
+Example of use: 
+
+```bash
+#!/usr/bin/env bash
+
+## Display a debug message
+logty --level debug --message "Hello world!" ## --> [2018/01/21 21:04:32] [DEBUG] Hello world!
+```
 
 
 ## License
