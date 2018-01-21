@@ -25,8 +25,8 @@ var logty = function (opt) {
     this._disabled = false;
 
     //Default message format
-    this._format = function (tag, day, time, level, message) {
-        return message(tag, day, time, level, message);
+    this._format = function (tag, day, time, level, text) {
+        return message(tag, day, time, level, text);
     };
 
     return this;
