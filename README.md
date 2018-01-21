@@ -85,7 +85,7 @@ $ cat my-logs.txt
 ```
 
 
-The log string will have the following **default** structure:
+The **default** logging message has this structure:
 
 ```
 [{{ tag }}] [{{ day }} {{ time }}] [{{ level }}] {{ message }}
@@ -97,7 +97,7 @@ The log string will have the following **default** structure:
 - `level` is the first argument of this method.
 - `message` is log message.
 
-You can change this structure using the [`log.format`](#logformatfn) method.
+You can change this structure using the [`log.setFormat`](#logsetformatfn) method.
 
 
 ## API
