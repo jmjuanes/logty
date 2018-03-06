@@ -1,8 +1,10 @@
 let stream = require("stream");
 let util = require("util");
 
+//Default levels list
+let levels = ["fatal", "error", "warning", "notice", "info", "debug"];
+
 let current = require('./lib/current.js');
-let levels = require('./lib/levels.js');
 let message = require('./lib/message.js');
 
 //Logty readable stream
@@ -21,7 +23,7 @@ let logty = function (opt) {
     stream.Readable.call(this, {encoding: opt.encoding});
 
     this._tag = (typeof opt.tag === "string") ? opt.tag.trim() : null;
-    this._level = levels().length;
+    this._level = levels.length;
     this._disabled = false;
 
     //Default message format
@@ -37,13 +39,12 @@ util.inherits(logty, stream.Readable);
 
 //Set the minimum level
 logty.prototype.setLevel = function (level) {
-    let list = levels();
-    let index = list.indexOf(level);
+    let index = levels.indexOf(level);
     if (typeof level === "string" && index > -1) {
         this._level = index;
     }
     else {
-        this._level = list.length;
+        this._level = levels.length;
     }
     return this;
 };
@@ -58,7 +59,7 @@ logty.prototype.setFormat = function (format) {
 };
 
 //Register a method to emit a log message for each level
-levels().forEach(function (level, index) {
+levels.forEach(function (level, index) {
     logty.prototype[level] = function (text) {
         if (typeof text !== "string") {
             return;
@@ -92,3 +93,4 @@ logty.prototype.end = function () {
 
 //Exports
 module.exports = logty;
+module.exports.levels = levels; //Let people use levels array
