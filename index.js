@@ -1,12 +1,12 @@
-var stream = require("stream");
-var util = require("util");
+let stream = require("stream");
+let util = require("util");
 
 let current = require('./lib/current.js');
 let levels = require('./lib/levels.js');
 let message = require('./lib/message.js');
 
 //Logty readable stream
-var logty = function (opt) {
+let logty = function (opt) {
     if (typeof opt !== "object" || opt === null) {
         opt = {};
     }
@@ -39,7 +39,7 @@ util.inherits(logty, stream.Readable);
 logty.prototype.setLevel = function (level) {
     let list = levels();
     let index = list.indexOf(level);
-    if (typeof level === "string" &&  index > -1) {
+    if (typeof level === "string" && index > -1) {
         this._level = index;
     }
     else {
