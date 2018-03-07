@@ -1,4 +1,4 @@
-var logty = require("./index.js");
+var logty = require("../index.js");
 var fs = require("fs");
 
 //Simple log messages without tag
@@ -69,17 +69,17 @@ fileLog.pipe(writer);
 
 //Register the error event listeners
 fileLog.on("error", function (error) {
-    console.error(error);
+    process.stderr.write(error);
 });
 
 //Register the end event listener
 fileLog.on("end", function () {
-    console.log("Log stream closed!");
+    process.stdout.write("Log stream closed!");
 });
 
 //Writer finished
 writer.on("finish", function () {
-    console.log("Writer closed!");
+    process.stdout.write("Writer closed!");
 });
 
 //Generate logs
