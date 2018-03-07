@@ -141,18 +141,17 @@ Pipe log messages to a [`Writable Stream`](https://nodejs.org/api/stream.html#st
 
 > In `v0.5.0` this method replaces the `v0.4.x` `log.format(fn)` method.
 
+> In `v0.6.0`, the `day` and `time` arguments are not passed to the format function. Use `logty.timestamp` to format the current timestamp.
+
 Use this method to print your custom log messages. The `fn` argument must be a function that will be execute each log request with the following arguments: 
 - `tag`: the log tag string.
-- `day`: a string with the format `yyyy/mm/dd`.
-- `time`: a string with the format `hh:mm:ss`. 
-- `level`: a string with the log level.
+- `label`: a string with the log label.
 - `message`: a string with the log message.
 
 ```javascript
-log.setFormat(function(tag, day, time, level, message)
-{
-  //Only print the level and the message 
-  return '[' + level.toUpperCase() + '] ' + message;
+log.setFormat(function(tag, label, message) {
+  //Only print the label and the message 
+  return '[' + label.toUpperCase() + '] ' + message;
 });
 
 log.debug('A debug message'); // --> [DEBUG] A debug message
