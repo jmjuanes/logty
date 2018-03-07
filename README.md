@@ -223,6 +223,16 @@ log.fatal('This is a fatal message');
 Closes the log stream. 
 
 
+### logty.labels
+
+A static array with the labels used in `logty`.
+
+```javascript
+console.log(logty.labels)
+// --> [ "fatal", "error", "warning", "notice", "info", "debug" ]
+```
+
+
 ## CLI Usage
 
 You can use `logty` in your terminal or in your bash scripts by installing this module globally with `npm`. Simply run this command in your terminal: 
