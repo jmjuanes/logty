@@ -69,17 +69,17 @@ fileLog.pipe(writer);
 
 //Register the error event listeners
 fileLog.on("error", function (error) {
-    process.stderr.write(error);
+    console.error(error);
 });
 
 //Register the end event listener
 fileLog.on("end", function () {
-    process.stdout.write("Log stream closed!");
+    console.log("Log stream closed!");
 });
 
 //Writer finished
 writer.on("finish", function () {
-    process.stdout.write("Writer closed!");
+    console.log("Writer closed!");
 });
 
 //Generate logs
