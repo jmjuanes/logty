@@ -9,25 +9,25 @@ let getSpaces = function (n) {
 
 //Print the usage guide
 let printHelp = function () {
-    console.log("logty v" + pkg.version + "");
-    console.log("");
-    console.log("Usage: ");
-    console.log("  $ logty [options] -m <" + "message>");
-    console.log("");
-    console.log("Options:");
-    console.log("  -m MESSAGE    Set the message to display. This option is mandatory.");
-    console.log("  -l LABEL      Set the label. Default is 'debug'.");
+    process.stdout.write("logty v" + pkg.version + "");
+    process.stdout.write("");
+    process.stdout.write("Usage: ");
+    process.stdout.write("  $ logty [options] -m <" + "message>");
+    process.stdout.write("");
+    process.stdout.write("Options:");
+    process.stdout.write("  -m MESSAGE    Set the message to display. This option is mandatory.");
+    process.stdout.write("  -l LABEL      Set the label. Default is 'debug'.");
     logty.labels.forEach(function (label) {
-        console.log("  --" + label + getSpaces(label.length) + "Alias for '-l " + label + "'.");
+        process.stdout.write("  --" + label + getSpaces(label.length) + "Alias for '-l " + label + "'.");
     });
-    console.log("  --help, -h    Display this usage guide.");
+    process.stdout.write("  --help, -h    Display this usage guide.");
 };
 
 if (typeof args.options.h === "boolean" || typeof args.options.help === "boolean") {
     return printHelp();
 }
 if (typeof args.options.m !== "string") {
-    console.log("Message is mandatory. Use the -m option to set the message text to be displayed.");
+    process.stdout.write("Message is mandatory. Use the -m option to set the message text to be displayed.");
     return printHelp();
 }
 
@@ -51,4 +51,4 @@ message.push("[" + label.toUpperCase() + "]");
 message.push(args.options.m.trim());
 
 //Print the log message in console
-return console.log(message.join(" "));
+return process.stdout.write(message.join(" "));
