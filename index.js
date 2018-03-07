@@ -1,11 +1,10 @@
 let stream = require("stream");
 let util = require("util");
 
+let timestamp = require("./lib/timestamp.js");
+
 //Default levels list
 let levels = ["fatal", "error", "warning", "notice", "info", "debug"];
-
-let current = require('./lib/current.js');
-let message = require('./lib/message.js');
 
 //Logty readable stream
 let logty = function (opt) {
@@ -27,8 +26,16 @@ let logty = function (opt) {
     this._disabled = false;
 
     //Default message format
-    this._format = function (tag, day, time, level, text) {
-        return message(tag, day, time, level, text);
+    this._format = function (tag, level, text) {
+        let list = [];
+        if (tag) {
+            //Add the tag if it is provided
+            list.push("[" + tag + "]");
+        }
+        list.push("[" + timestamp("YYYY:MM:DD hh:mm:ss") + "]");
+        list.push("[" + level.toUpperCase() + "]");
+        list.push(text.trim());
+        return list.join(" ");
     };
 
     return this;
@@ -67,12 +74,8 @@ levels.forEach(function (level, index) {
         if (this._disabled === true || this._level < index) {
             return;
         }
-
-        let day = current.getDay();
-        let time = current.getTime();
-        let str = this._format.call(null, this._tag, day, time, level, text);
-
         //Build the message for this level and emit the data event
+        let str = this._format.call(null, this._tag, level, text);
         //this.push(message(level, this._tag, text), "utf8");
         this.emit("data", str + "\n");
         return this;
@@ -91,6 +94,9 @@ logty.prototype.end = function () {
     return this;
 };
 
-//Exports
+//Export logty class
 module.exports = logty;
-module.exports.levels = levels; //Let people use levels array
+
+//Let people access to levels array and timestamp script
+module.exports.levels = levels;
+module.exports.timestamp = timestamp;
