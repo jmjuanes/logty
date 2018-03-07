@@ -70,14 +70,23 @@ logty.prototype.setFormat = function (format) {
     return this;
 };
 
+//Print a log message with a custom label
+logty.prototype.customLabeledMessage = function(label, text) {
+    if(typeof label === "string" && typeof text === "string") {
+        let str = this._format.call(null, this._tag, label, text);
+        this.emit("data", str + "\n");
+    }
+    return this;
+};
+
 //Register a method to emit a log message for each label
 labels.forEach(function (label, index) {
     logty.prototype[label] = function (text) {
         if (typeof text !== "string") {
-            return;
+            return this;
         }
         if (this._disabled === true || this._level < index) {
-            return;
+            return this;
         }
         //Build the message for this level and emit the data event
         let str = this._format.call(null, this._tag, label, text);
