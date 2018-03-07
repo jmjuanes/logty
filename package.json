@@ -1,6 +1,6 @@
 {
   "name": "logty",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A dead simple streaming logger",
   "keywords": [
     "log",
