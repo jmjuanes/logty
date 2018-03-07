@@ -165,14 +165,14 @@ log.debug('A debug message'); // --> [DEBUG] A debug message
 
 Set the minimum log level. Available levels, in order: 
 
-- `fatal`
-- `error`
-- `warning`
-- `notice`
-- `info`
-- `debug`
+- `0`: `fatal`
+- `1`: `error`
+- `2`: `warning`
+- `3`: `notice`
+- `4`: `info`
+- `5`: `debug`
 
-For example, if you set `warning` as the minimum level, all the `notice`, `info` or `debug` messages will be omitted. 
+For example, if you set `2` (`warning`) as the minimum level, all the `notice`, `info` or `debug` messages will be omitted. 
 
 ```javascript
 //Only pipe messages with a higher level than 'info' 
@@ -240,15 +240,21 @@ You can print the `logty` usage guide running `logty --help`:
 
 ```
 $ logty --help 
-logty v0.5.0
+logty v0.6.0
 
 Usage:
-  $ logty --level <level> --message <message>
+  $ logty [options] -m <message>
 
 Options:
-  --level STRING         (Mandatory!) Logging level.
-  --message STRING       (Mandatory!) Logging message to display.
-  -h, --help             Display this usage guide.
+  -m MESSAGE    Set the message to display. This option is mandatory.
+  -l LABEL      Set the label. Default is 'debug'.
+  --fatal       Alias for '-l fatal'.
+  --error       Alias for '-l error'.
+  --warning     Alias for '-l warning'.
+  --notice      Alias for '-l notice'.
+  --info        Alias for '-l info'.
+  --debug       Alias for '-l debug'.
+  --help, -h    Display this usage guide.
 ```
 
 Example of use in a bash script: 
@@ -257,10 +263,13 @@ Example of use in a bash script:
 #!/usr/bin/env bash
 
 ## Display a debug message
-logty --level debug --message "Hello world" ## --> [2018/01/21 21:04:32] [DEBUG] Hello world
+logty -l debug -m "Hello world"      ## --> [2018/01/21 21:04:32] [DEBUG] Hello world
 
 ## Display a error message 
-logty --level error --message "An error message" ## --> [2018/01/21 21:04:32] [ERROR] An error message
+logty -l error -m "An error message" ## --> [2018/01/21 21:04:32] [ERROR] An error message
+
+## Display a message with a custom label 
+logty -l custom -m "Hello world"     ## --> [2018/01/21 21:04:32] [CUSTOM] Hello world
 ```
 
 
