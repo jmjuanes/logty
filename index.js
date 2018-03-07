@@ -32,7 +32,7 @@ let logty = function (opt) {
             //Add the tag if it is provided
             list.push("[" + tag + "]");
         }
-        list.push("[" + timestamp("YYYY:MM:DD hh:mm:ss") + "]");
+        list.push("[" + timestamp("YYYY-MM-DD hh:mm:ss") + "]");
         list.push("[" + label.toUpperCase() + "]");
         list.push(text.trim());
         return list.join(" ");
