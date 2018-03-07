@@ -88,13 +88,11 @@ $ cat my-logs.txt
 The **default** logging message has this structure:
 
 ```
-[{{ tag }}] [{{ day }} {{ time }}] [{{ level }}] {{ message }}
+[{{ tag }}] [YYYY-MM-DD hh:mm:ss] [{{ label }}] {{ message }}
 ```
 
 - `tag` is the tag string provided on the `logty` constructor. If no tag string is provided, this field will be omitted from the log string.
-- `day` is the actual day, with the format format `yyyy/mm/dd`. 
-- `time` is the actual time, with the format `hh:mm:ss`. 
-- `level` is the first argument of this method.
+- `label` is the log label.
 - `message` is log message.
 
 You can change this structure using the [`log.setFormat`](#logsetformatfn) method.
