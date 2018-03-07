@@ -1,6 +1,6 @@
 {
   "name": "logty",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A dead simple streaming logger",
   "keywords": [
     "log",
@@ -15,7 +15,9 @@
     "type": "git",
     "url": "https://github.com/jmjuanes/logty"
   },
-  "dependencies": {},
+  "dependencies": {
+    "get-args": "^2.0.0"
+  },
   "license": "MIT",
   "scripts": {
     "test": "node test.js"
