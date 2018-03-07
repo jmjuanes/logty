@@ -220,6 +220,8 @@ log.fatal('This is a fatal message');
 
 ### log.customLabeledMessage(label, message)
 
+> Added in `v0.7.0`.
+
 Generate and emit a new log message with a custom label. This method accepts two arguments: 
 - `label`: a `string` with the custom label.
 - `message`: a `string` with the log message.
@@ -241,6 +243,8 @@ Closes the log stream.
 
 ### logty.timestamp(pattern)
 
+> Added in `v0.6.0`.
+
 A static method to generate a formatted timestamp. Valid patterns: 
 
 - `YYYY`: current year.
@@ -260,6 +264,8 @@ let time = logty.timestamp("hh:mm:ss");
 
 
 ### logty.labels
+
+> Added in `v0.6.0`.
 
 A static array with the labels used in `logty`.
 
