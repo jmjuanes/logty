@@ -287,7 +287,7 @@ You can print the `logty` usage guide running `logty --help`:
 
 ```
 $ logty --help 
-logty v0.6.0
+logty v0.7.0
 
 Usage:
   $ logty [options] -m <message>
