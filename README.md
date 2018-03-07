@@ -163,7 +163,7 @@ log.debug('A debug message'); // --> [DEBUG] A debug message
 
 > In `v0.5.0`, this method replaces the `v0.4.x` `log.level(level)` method.
 
-Set the minimum log level. Available levels, in order: 
+This method accepts an integer with the maximum log level. Available levels:
 
 - `0`: `fatal`
 - `1`: `error`
@@ -172,13 +172,12 @@ Set the minimum log level. Available levels, in order:
 - `4`: `info`
 - `5`: `debug`
 
-For example, if you set `2` (`warning`) as the minimum level, all the `notice`, `info` or `debug` messages will be omitted. 
+For example, if you set `2` (`warning`) as the maximum level, all the `notice`, `info` or `debug` messages will be omitted. 
 
 ```javascript
-//Only pipe messages with a higher level than 'info' 
-log.setLevel('info');
-log.info('This is an info message'); // --> info >= info, so this message will be piped
-log.debug('This is a debug message'); // --> info > debug, so this message will be ignored
+log.setLevel(2);
+log.error('This is an error message'); // --> error <= warning, so this message will be piped
+log.debug('This is a debug message'); // --> info > warning, so this message will be ignored
 ```
 
 ### log.debug(message)
