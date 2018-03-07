@@ -223,6 +223,28 @@ log.fatal('This is a fatal message');
 Closes the log stream. 
 
 
+## Utils
+
+### logty.timestamp(pattern)
+
+A static method to generate a formatted timestamp. Valid patterns: 
+
+- `YYYY`: current year.
+- `MM`: current month.
+- `DD`: current day.
+- `hh`: current hours.
+- `mm`: current minutes.
+- `ss`: current seconds.
+
+```javascript
+let date = logty.timestamp("YYYY-MM-DD");
+// --> "2018-03-07"
+
+let time = logty.timestamp("hh:mm:ss");
+// --> "15:24:04"
+```
+
+
 ### logty.labels
 
 A static array with the labels used in `logty`.
