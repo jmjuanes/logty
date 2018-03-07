@@ -49,7 +49,7 @@ logty.prototype.setLevel = function (index) {
     //Check if the provided index is a string
     //This will be removed un further versions, setLevel method will only accepts an integer
     if(typeof index === "string") {
-        index = labels.indexOf(index);
+        index = labels.indexOf(index.toLowerCase());
     }
     //Check for a valid number value
     if (typeof index === "number" && index > -1 && index <= labels.length) {
