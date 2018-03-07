@@ -218,6 +218,20 @@ log.fatal('This is a fatal message');
 // -> [2018-01-21 21:04:32] [FATAL] This is a fatal message
 ```
 
+### log.customLabeledMessage(label, message)
+
+Generate and emit a new log message with a custom label. This method accepts two arguments: 
+- `label`: a `string` with the custom label.
+- `message`: a `string` with the log message.
+
+```javascript
+log.customLabeledMessage("log", "This is a log message");
+// -> [2018-01-21 21:04:32] [LOG] This is a log message
+
+log.customLabeledMessage("critical", "This is a critical message");
+// -> [2018-01-21 21:04:32] [CRITICAL] This is a critical message
+```
+
 ### log.end()
 
 Closes the log stream. 
