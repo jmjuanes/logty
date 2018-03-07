@@ -45,10 +45,10 @@ let logty = function (opt) {
 util.inherits(logty, stream.Readable);
 
 //Set the minimum level
-logty.prototype.setLevel = function (level) {
-    let index = labels.indexOf(level);
-    if (typeof level === "string" && index > -1) {
-        this._level = index;
+logty.prototype.setLevel = function (index) {
+    //let index = labels.indexOf(level);
+    if (typeof index === "number" && index > -1 && index <= labels.length) {
+        this._level = parseInt(index);
     }
     else {
         this._level = labels.length;
