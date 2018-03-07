@@ -1,63 +1,50 @@
-
-let current = require("./lib/current.js");
-let levels = require('./lib/levels.js');
-var message = require('./lib/message.js');
+let logty = require("./index.js");
 let pkg = require("./package.json");
 
-let args = process.argv.slice(2);
-
-//Find the option value
-let findOption = function (shortName, largeName, defaultValue) {
-    for (let i = 0; i < args.length; i++) {
-        let a = args[i];
-        let firstCondition = a.indexOf("--") === 0 && a.substr(2) === largeName;
-        let secondCondition = a.indexOf("-") === 0 && a.substr(1) === shortName;
-
-        if (firstCondition || secondCondition) {
-            if (i + 1 < args.length) {
-                return args[i + 1];
-            }
-            else {
-                return true;
-            }
-        }
-    }
-    return defaultValue;
-};
+let args = require("get-args")();
 
 //Print the usage guide
 let printHelp = function () {
     console.log("logty v" + pkg.version + "");
     console.log("");
     console.log("Usage: ");
-    console.log("  $ logty --level <" + "level> --message <" + "message>");
+    console.log("  $ logty [options] -m <" + "message>");
     console.log("");
     console.log("Options:");
-    console.log("  --level STRING         (Mandatory!) Logging level.");
-    console.log("  --message STRING       (Mandatory!) Logging message to display.");
-    console.log("  -h, --help             Display this usage guide.");
+    console.log("  -m MESSAGE    Set the message to display. This option is mandatory.");
+    console.log("  -l LABEL      Set the label. Default is 'debug'.");
+    logty.labels.forEach(function (label) {
+        console.log("  --" + label + "       Alias for '-l " + label + "'.");
+    });
+    console.log("  --help, -h    Display this usage guide.");
 };
 
-if (args.length === 1 && (args[0] === "-h" || args[0] === "--help")) {
+if (typeof args.options.h === "boolean" || typeof args.options.help === "boolean") {
+    return printHelp();
+}
+if (typeof args.options.m !== "string") {
+    console.log("Message is mandatory. Use the -m option to set the message text to be displayed.");
     return printHelp();
 }
 
-//Parse the argument values
-let levelValue = findOption(null, "level", null);
-let messageValue = findOption(null, "message", null);
-
-if (typeof levelValue !== "string" || typeof messageValue !== "string") {
-    return console.error("Level and message options are mandatory!");
+//Get the wanted label value
+let label = "debug";
+if (typeof args.options.l === "string") {
+    label = args.options.l;
+} else {
+    for (let i = 0; i < logty.labels.length; i++) {
+        if (typeof args.options[logty.labels[i]] === "boolean") {
+            label = logty.labels[i];
+            break;
+        }
+    }
 }
 
-let levelsList = levels();
-if (levelsList.indexOf(levelValue.toLowerCase().trim()) === -1) {
-    levelValue = "debug";
-}
+//Generate the message to display
+let message = [];
+message.push("[" + logty.timestamp("YYYY-MM-DD hh:mm:ss") + "]");
+message.push("[" + label.toUpperCase() + "]");
+message.push(args.options.m.trim());
 
-//Generate the log message
-let currentDay = current.getDay();
-let currentTime = current.getTime();
-
-return console.log(message(null, currentDay, currentTime, levelValue, messageValue));
-
+//Print the log message in console
+return console.log(message.join(" "));
