@@ -49,8 +49,8 @@ log.end();
 This will print on console the following lines:
 
 ```
-[2017/07/12 13:01:17] [DEBUG] This is a debug message
-[2017/07/12 13:01:17] [ERROR] This is an error message
+[2017-07-12 13:01:17] [DEBUG] This is a debug message
+[2017-07-12 13:01:17] [ERROR] This is an error message
 ```
 
 You can pipe log messages to a file: 
@@ -80,8 +80,8 @@ Content of the file:
 
 ```
 $ cat my-logs.txt
-[2017/07/12 13:01:17] [INFO] This is a info message
-[2017/07/12 13:01:17] [ERROR] This is an error message
+[2017-07-12 13:01:17] [INFO] This is a info message
+[2017-07-12 13:01:17] [ERROR] This is an error message
 ```
 
 
@@ -180,42 +180,42 @@ log.debug('This is a debug message'); // --> info > warning, so this message wil
 
 ```javascript
 log.debug('This is a debug message');
-// -> [YYYY/MM/DD hh:mm:ss] [DEBUG] This is a debug message
+// -> [2018-01-21 21:04:32] [DEBUG] This is a debug message
 ```
 
 ### log.info(message)
 
 ```javascript
 log.info('This is an info message');
-// -> [YYYY/MM/DD hh:mm:ss] [INFO] This is an info message
+// -> [2018-01-21 21:04:32] [INFO] This is an info message
 ```
 
 ### log.notice(message)
 
 ```javascript
 log.notice('This is a notice message');
-// -> [YYYY/MM/DD hh:mm:ss] [NOTICE] This is a notice message
+// -> [2018-01-21 21:04:32] [NOTICE] This is a notice message
 ```
 
 ### log.warning(message)
 
 ```javascript
 log.fatal('This is a warning message');
-// -> [YYYY/MM/DD hh:mm:ss] [WARNING] This is a warning message
+// -> [2018-01-21 21:04:32] [WARNING] This is a warning message
 ```
 
 ### log.error(message)
 
 ```javascript
 log.error('This is an error message');
-// -> [YYYY/MM/DD hh:mm:ss] [ERROR] This is an error message
+// -> [2018-01-21 21:04:32] [ERROR] This is an error message
 ```
 
 ### log.fatal(message)
 
 ```javascript
 log.fatal('This is a fatal message');
-// -> [YYYY/MM/DD hh:mm:ss] [FATAL] This is a fatal message
+// -> [2018-01-21 21:04:32] [FATAL] This is a fatal message
 ```
 
 ### log.end()
@@ -258,13 +258,13 @@ Example of use in a bash script:
 #!/usr/bin/env bash
 
 ## Display a debug message
-logty -l debug -m "Hello world"      ## --> [2018/01/21 21:04:32] [DEBUG] Hello world
+logty -l debug -m "Hello world"      ## --> [2018-01-21 21:04:32] [DEBUG] Hello world
 
 ## Display a error message 
-logty -l error -m "An error message" ## --> [2018/01/21 21:04:32] [ERROR] An error message
+logty -l error -m "An error message" ## --> [2018-01-21 21:04:32] [ERROR] An error message
 
 ## Display a message with a custom label 
-logty -l custom -m "Hello world"     ## --> [2018/01/21 21:04:32] [CUSTOM] Hello world
+logty -l custom -m "Hello world"     ## --> [2018-01-21 21:04:32] [CUSTOM] Hello world
 ```
 
 
