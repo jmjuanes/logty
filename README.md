@@ -115,8 +115,7 @@ The data event will be emitted when a new log message is generated using the `lo
 
 ```javascript
 var log = new logty();
-log.on('data', function(message)
-{
+log.on('data', function (message) {
   //New log message generated
   // . . . 
 });
@@ -149,7 +148,7 @@ Use this method to print your custom log messages. The `fn` argument must be a f
 - `message`: a string with the log message.
 
 ```javascript
-log.setFormat(function(tag, label, message) {
+log.setFormat(function (tag, label, message) {
   //Only print the label and the message 
   return '[' + label.toUpperCase() + '] ' + message;
 });
