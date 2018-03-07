@@ -3,6 +3,10 @@ let pkg = require("./package.json");
 
 let args = require("get-args")();
 
+let getSpaces = function (n) {
+    return Array(13 - n).join(" ");
+};
+
 //Print the usage guide
 let printHelp = function () {
     console.log("logty v" + pkg.version + "");
@@ -14,7 +18,7 @@ let printHelp = function () {
     console.log("  -m MESSAGE    Set the message to display. This option is mandatory.");
     console.log("  -l LABEL      Set the label. Default is 'debug'.");
     logty.labels.forEach(function (label) {
-        console.log("  --" + label + "       Alias for '-l " + label + "'.");
+        console.log("  --" + label + getSpaces(label.length) + "Alias for '-l " + label + "'.");
     });
     console.log("  --help, -h    Display this usage guide.");
 };
